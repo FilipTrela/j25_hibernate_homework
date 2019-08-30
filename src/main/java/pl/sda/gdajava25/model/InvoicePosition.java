@@ -21,20 +21,20 @@ public class InvoicePosition implements IBaseEntity {
     @Column(nullable = false)
     private double cena;
 
-    @Formula(value = "(SELECT ip.cena*0.22 FROM InvoicePosition ip)")
+    @Formula(value = "(SELECT ip.cena*0.22 FROM invoiceposition ip)")
     private double kwotaPodatku;
 
     @Column(nullable = false)
-    private int ilosć;
+    private int ilosc;
 
     @ToString.Exclude
     @ManyToOne
     private Invoice invoice;
 
-    public InvoicePosition(String nazwa, double cena, int ilosć, Invoice invoice) {
+    public InvoicePosition(String nazwa, double cena, int ilosc, Invoice invoice) {
         this.nazwa = nazwa;
         this.cena = cena;
-        this.ilosć = ilosć;
+        this.ilosc = ilosc;
         this.invoice = invoice;
     }
 }

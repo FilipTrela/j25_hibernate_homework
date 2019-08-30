@@ -87,6 +87,7 @@ public class Main {
         Invoice invoice = getInvoice(dao);
         invoice.setCzyOpłacony(true);
         invoice.setDataIGodzinaOpłacenia(LocalDateTime.now());
+        dao.saveOrUpdate(invoice);
 
     }
 
@@ -111,28 +112,27 @@ public class Main {
         System.out.println("Podaj cene : ");
         invoicePosition.setCena(Double.parseDouble(SCANNER.nextLine()));
         System.out.println("Podaj ilość : ");
-        invoicePosition.setIlosć(Integer.parseInt(SCANNER.nextLine()));
+        invoicePosition.setIlosc(Integer.parseInt(SCANNER.nextLine()));
         return invoicePosition;
     }
 
     private static Optional<Invoice> getInvoiceById(EntityDAO dao) {
         System.out.println("Podaj id rachuku : ");
-        return dao.getById(Invoice.class, Long.parseLong(SCANNER.nextLine()));
+        Long l = Long.parseLong(SCANNER.nextLine());
+        return dao.getById(Invoice.class, l);
     }
 
     private static void addInvoice(EntityDAO dao) {
         Invoice invoice = makeInvoice();
+        dao.saveOrUpdate(invoice);
         String komenda;
         System.out.println("Chcesz dodać produkty [Y/N] ? : ");
         do {
             komenda = SCANNER.nextLine();
             if (komenda.equalsIgnoreCase("N")) {
-                dao.saveOrUpdate(invoice);
+                break;
             } else if (komenda.equalsIgnoreCase("Y")) {
                 addInvoicePositionToInvoice(invoice, dao);
-                dao.saveOrUpdate(invoice);
-            } else {
-                System.err.println("Zła komenda !!");
             }
         } while (isaYorN(komenda));
 
@@ -154,8 +154,7 @@ public class Main {
                 return false;
             } else if (s.equalsIgnoreCase("Y")) {
                 return true;
-            } else
-                System.err.println("Złą komenda !!");
+            }
         } while (isaYorN(s));
         return false;
     }

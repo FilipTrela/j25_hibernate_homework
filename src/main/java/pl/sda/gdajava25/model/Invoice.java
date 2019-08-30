@@ -25,9 +25,10 @@ public class Invoice implements IBaseEntity {
     private boolean czyOpłacony;
 
     @CreationTimestamp
+    @Column(nullable = false)
     private LocalDate dataWydania;
 
-    @Formula(value = "(SELECT SUM(ip.cena*1.22) FROM InvoicePosition ip WHERE ip.invoice_id = id)")
+    @Formula(value = "(SELECT SUM((ip.cena*1.22)*ip.ilosc) FROM invoiceposition ip WHERE ip.invoice_id = id)")
     private double kwota;
 
     private LocalDateTime dataIGodzinaOpłacenia;
