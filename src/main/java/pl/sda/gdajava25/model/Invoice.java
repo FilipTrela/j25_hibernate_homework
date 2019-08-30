@@ -29,7 +29,7 @@ public class Invoice implements IBaseEntity {
     private LocalDate dataWydania;
 
     @Formula(value = "(SELECT SUM((ip.cena*1.22)*ip.ilosc) FROM invoiceposition ip WHERE ip.invoice_id = id)")
-    private double kwota;
+    private Double kwota;
 
     private LocalDateTime dataIGodzinaOpłacenia;
 

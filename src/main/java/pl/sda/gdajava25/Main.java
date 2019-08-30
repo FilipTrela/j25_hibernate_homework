@@ -47,7 +47,7 @@ public class Main {
     }
 
     private static void printSumOfTodayInvoice(EntityDAO dao) {
-        Double suma = dao.getAll(Invoice.class).stream()
+        double suma = dao.getAll(Invoice.class).stream()
                 .filter(invoice -> invoice.getDataWydania().isEqual(LocalDate.now()))
                 .mapToDouble(Invoice::getKwota).sum();
         System.out.println("Suma dzisiejszch rachunków to : " + suma + " zł.");

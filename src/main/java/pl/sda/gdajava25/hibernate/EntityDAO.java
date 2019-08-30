@@ -1,6 +1,7 @@
 package pl.sda.gdajava25.hibernate;
 
 import org.hibernate.HibernateException;
+import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.sda.gdajava25.model.IBaseEntity;
@@ -8,6 +9,7 @@ import pl.sda.gdajava25.model.IBaseEntity;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,22 +31,24 @@ public class EntityDAO {
     }
 
     public <T extends IBaseEntity> List<T> getAll(Class<T> tClass) {
+        List<T> list = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = cb.createQuery(tClass);
             Root<T> root = criteriaQuery.from(tClass);
             criteriaQuery.select(root);
-            return session.createQuery(criteriaQuery).list();
+
+            list.addAll(session.createQuery(criteriaQuery).list());
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 
     public <T extends IBaseEntity> Optional<T> getById(Class<T> tClass, Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
-            T t = session.get(tClass, id);
+            T t = session.get(tClass,id);
 
             return Optional.ofNullable(t);
         }
