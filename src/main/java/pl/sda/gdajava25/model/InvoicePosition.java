@@ -21,7 +21,7 @@ public class InvoicePosition implements IBaseEntity {
     @Column(nullable = false)
     private double cena;
 
-    @Formula(value = "(SELECT ip.cena*0.22 FROM invoiceposition ip)")
+    @Formula(value = "(SELECT ip.cena*0.22 FROM invoiceposition ip where ip.id = id)")
     private double kwotaPodatku;
 
     @Column(nullable = false)
